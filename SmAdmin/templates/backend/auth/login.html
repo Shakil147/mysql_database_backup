@@ -1,0 +1,37 @@
+{% extends "backend/auth/app.html" %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+
+      <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+        <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><img src="" width="200" alt=""></div>
+
+        <div class="tx-center mg-b-10">Log In</div>
+        
+        <form action="{% url 'dologin' %}" method="POST">
+          {% csrf_token %}
+        <div class="form-group mg-t-10">
+          <input type="text" name="username" class="form-control" value="" placeholder="Enter your Username" required>
+    
+        </div><!-- form-group -->
+        <div class="form-group">
+          <input type="password" name="password" class="form-control  " placeholder="Enter your password" required>
+          
+        </div><!-- form-group -->
+        <div class="form-group">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="remember" id="remember" >
+
+                <label class="form-check-label" for="remember">
+                    Remember Me
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-info btn-block">Log In</button>
+         <div class="mg-t-10 tx-center"><a href="password.request" class="tx-info tx-12 d-block mg-t-10">Forgot Your Password?</a></div>
+         </form>
+      </div><!-- login-wrapper -->
+    </div><!-- d-flex -->
+{% endblock content %}

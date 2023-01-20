@@ -1,0 +1,36 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="">
+
+    <!-- Meta -->
+    <meta name="description" content="">
+    <meta name="author" content="ThemePixels">
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    <!-- vendor css -->
+    <link href="{%static  '' %}template/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="{%static  '' %}template/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="{%static  '' %}template/css/bracket.css">
+  </head>
+
+  <body>
+
+    {% block content %}
+      
+    {% endblock content %}
+
+    <script src="{%static  '' %}template/lib/jquery/jquery.min.js"></script>
+    <script src="{%static  '' %}template/lib/jquery-ui/ui/widgets/datepicker.js"></script>
+    <script src="{%static  '' %}template/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+</html>

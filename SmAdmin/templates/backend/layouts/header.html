@@ -1,0 +1,58 @@
+{% load static %}
+<div class="br-header">
+  <div class="br-header-left">
+    <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+    <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+  </div><!-- br-header-left -->
+  <div class="br-header-right">
+    <nav class="nav">
+     <!-- dropdown -->
+      <div class="dropdown">
+        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+         {% if user.is_authenticated %}
+         <span class="logged-name hidden-md-down"> {{ user.username }} </span>
+         {% else %}
+         <span class="logged-name hidden-md-down"> Guest </span>
+         {% endif %} 
+          
+              <img src="https://via.placeholder.com/500" class="wd-32 rounded-circle" alt="">
+          
+          <span class="square-10 bg-success"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-header wd-250">
+          <div class="tx-center">
+
+              <a href=""><img src="https://via.placeholder.com/500"  class="wd-80 rounded-circle" class="m-3" alt=""></a>
+            
+
+            {% if user.is_authenticated %}
+
+            <h6 class="logged-fullname">{{ user.username }}</h6>
+            <h6 class="logged-fullname">{{ user.email }}</h6>
+            {% else %}
+            <h6 class="logged-fullname">Guest</h6>
+            {% endif %}
+            
+          </div>
+          <hr>
+          
+          <ul class="list-unstyled user-profile-nav">
+            <li><a href="/master"><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+            {% comment %} <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>  {% endcomment %}
+            <li>
+            <a class="" href="logout"
+                 onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                  <i class="icon ion-power"></i> Logout
+              </a>
+
+              <form id="logout-form" action="{% url 'dologout' %}" method="POST" class="d-none">
+                   {% csrf_token %}
+              </form>
+            </li>
+          </ul>
+        </div><!-- dropdown-menu -->
+      </div><!-- dropdown -->
+    </nav>
+  </div><!-- br-header-right -->
+</div><!-- br-header -->

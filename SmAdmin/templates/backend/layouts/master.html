@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<title>{% block title %}
+  {% endblock title %}</title>
+  
+  <head>
+    {% include "backend/layouts/includes_top.html" %}
+    {% block css %}
+    {% endblock css %}
+  </head>
+
+  <body>
+  
+  <div id="app">
+    <!-- ########## START: LEFT PANEL ########## -->
+    {% include 'backend/layouts/sidebar.html' %}
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    {% include 'backend/layouts/header.html' %}
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+{% block content %}
+{% endblock content %}
+    {% include 'backend/layouts/footer.html' %}
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+  </div>
+
+
+ {% include 'backend/layouts/includes_bottom.html' %}
+ 
+{% block js %}
+{% endblock js %}
+  </body>
+</html>

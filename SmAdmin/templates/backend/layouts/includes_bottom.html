@@ -1,0 +1,112 @@
+{% load static %}
+<script src="{%static  '' %}template/lib/jquery/jquery.min.js"></script>
+ {% comment %} <script src="{%static  '' %}template/lib/jquery-ui/ui/widgets/datepicker.js"></script>  {% endcomment %}
+
+<script src="{%static  '' %}template/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+{% comment %}  <script src="{%static  '' %}template/lib/peity/jquery.peity.min.js"></script>{% endcomment %}
+{% comment %}  <script src="{%static  '' %}template/lib/rickshaw/vendor/d3.min.js"></script>
+<script src="{%static  '' %}template/lib/rickshaw/vendor/d3.layout.min.js"></script>
+<script src="{%static  '' %}template/lib/rickshaw/rickshaw.min.js"></script>{% endcomment %}
+{% comment %}  <script src="{%static  '' %}template/lib/jquery.flot/jquery.flot.js"></script>
+<script src="{%static  '' %}template/lib/jquery.flot/jquery.flot.resize.js"></script>{% endcomment %}
+{% comment %}  <script src="{%static  '' %}template/lib/flot-spline/js/jquery.flot.spline.min.js"></script>{% endcomment %}
+{% comment %}  <script src="{%static  '' %}template/lib/jquery-sparkline/jquery.sparkline.min.js"></script>{% endcomment %}
+
+{% comment %}  <script src="{%static  '' %}template/js/ResizeSensor.js"></script>{% endcomment %}
+{% comment %}  <script src="{%static  '' %}template/js/dashboard.js"></script>{% endcomment %}
+
+<script src="{%static  '' %}template/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<script src="{%static  '' %}template/lib/moment/min/moment.min.js"></script>
+<script src="{%static  '' %}template/js/bracket.js"></script>
+
+
+
+<script>
+    function previewImg(event) {
+        // var output = document.getElementById('preview-img');
+        // output.src = URL.createObjectURL(event.target.files[0]);
+        // output.onload = function() {
+        //   URL.revokeObjectURL(output.src) // free memory
+        // }
+    }
+
+    function archiveFunction(id) {
+        event.preventDefault(); // prevent form submit
+        // $('#data'+id).css("display", "none");
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                 document.getElementById('delete-form'+id).submit();
+            }
+        })
+    }
+
+</script>
+
+<script>
+  $(function(){
+    'use strict'
+
+    // FOR DEMO ONLY
+    // menu collapsed by default during first page load or refresh with screen
+    // having a size between 992px and 1299px. This is intended on this page only
+    // for better viewing of widgets demo.
+    $(window).resize(function(){
+      minimizeMenu();
+    });
+
+    // $('.select2').select2();
+
+    minimizeMenu();
+
+    function minimizeMenu() {
+      if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+        // show only the icons and hide left menu label by default
+        $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+        $('body').addClass('collapsed-menu');
+        $('.show-sub + .br-menu-sub').slideUp();
+      } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+        $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+        $('body').removeClass('collapsed-menu');
+        $('.show-sub + .br-menu-sub').slideDown();
+      }
+    }
+  });
+
+ 'use strict';
+
+ $(document).ready(function(){
+   new PerfectScrollbar('.sideleft-scrollbar', {
+    suppressScrollX: true
+  });
+
+  new PerfectScrollbar('.contact-scrollbar', {
+    suppressScrollX: true
+  });
+
+  new PerfectScrollbar('.attachment-scrollbar', {
+    suppressScrollX: true
+  });
+
+  new PerfectScrollbar('.schedule-scrollbar', {
+    suppressScrollX: true
+  });
+
+  new PerfectScrollbar('.settings-scrollbar', {
+    suppressScrollX: true
+  });
+  
+});
+   $(".alert").delay(8000).slideUp(400, function() {
+      $(this).alert('close');
+  });
+</script>
