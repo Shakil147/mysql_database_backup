@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SmAdmin',
     'target',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -86,14 +87,6 @@ WSGI_APPLICATION = 'dbBackupDjango.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default_dsad': {
-        'ENGINE': env('DB_CONNECTION'),
-        'NAME':  env('DB_PASSWORD'),
-        'USER':  env('DB_USERNAME'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT')
-    },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -161,3 +154,13 @@ EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = env('EMAIL_PORT')
+
+
+""" 'default_dsad': {
+        'ENGINE': env('DB_CONNECTION'),
+        'NAME':  env('DB_PASSWORD'),
+        'USER':  env('DB_USERNAME'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
+    }, """
