@@ -1,0 +1,206 @@
+{% extends "backend/layouts/master.html" %}
+{% load static  %}
+
+{% block title %}
+Show Property
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}" role="alert">
+    {{message}}
+     <button type="button" class="close" data-dismiss="alert">x</button>
+  </div>
+{% endfor %} {% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+<div class="custom-page-title">
+  <h4 class="float-left">Properties</h4>
+  <a href="{% url 'admin.properties.index' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-list"></i>  Properties</a>
+  <p class="mg-b-0"></p>
+</div>
+
+</div>
+
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Property Id : {{ property.apartment_id }}</h6>
+      <div class="row">
+        <div class="col-sm-6">
+          <p>
+            <b>Property Id :</b> {{ property.apartment_id }}<br>
+            <b>Project :</b> {{ property.project }}<br>
+            <b>Location :</b> {{ property.location }}<br>
+            <b>Type :</b> {{ property.type }}<br>
+            <b>Category :</b> {{ property.apartment_status }}<br>
+            <b>Purpose :</b> {{ property.purpose }}<br>
+          </p>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            <b>Price :</b> {{ property.price }}<br>
+            <b>Size :</b> {{ property.size }} sq Ft<br>
+            <b>Bed :</b> {{ property.bed }}<br>
+            <b>Bath :</b> {{ property.bath }}<br>
+            <b>Blecony :</b> {{ property.blecony }}<br>
+          </p>
+        </div>
+        <div class="col-sm-12">
+          <p>
+            <b>Details :</b><br>
+            {{ property.details|safe }} <br><br>
+          </p>
+        </div>
+        <div class="col-md-4">
+          {% if property.image %}
+            <img src="{{ property.image.url }}" width="100%" class="img-thumbnail" alt=""><br>
+
+          {% endif %}
+          <b>Main Image: </b>
+        </div>
+        <div class="col-md-4">
+          {% if property.image_2 %}
+            <img src="{{ property.image_2.url }}" width="100%" class="img-thumbnail" alt="">
+            {% endif %}
+            <br>
+            <b>Background Image: </b>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Images </h6>
+      <a href="javascript:viod(0)" class="btn btn-info btn-sm"  data-toggle="modal" data-target="#new-image-model"> <i class="fa fa-plus"></i> Add New Photo</a>
+
+      <div class="row">
+        {%if property.images.all %}
+
+          {% for image in property.images.all %}
+            <div class="col-sm-3 md-2">
+
+          {% if image.image %}
+            <img src="{{ image.image.url }}" width="100%" class="img-thumbnail" alt="">
+            {% endif %}            
+            <br>
+            <b>{{ image.caption }} </b>
+            <div class="btn-group">
+              <a href="{% url 'admin.properties.delete-image' id=image.id %}" class="btn btn-warning btn-sm" title="Delete"> <i class="fa fa-trash"></i></a>
+            </div>
+              </div>
+          {% endfor %}
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="new-image-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <form action="{%url 'admin.properties.image-upload'%}" method="POST" enctype="multipart/form-data" method="POST">
+         {% csrf_token %}
+          <input type="hidden" value="{{ property.id }}" name="property">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New Images</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="form-check-label">Cption:</label>
+          <input type="text" class="form-control" name="caption" placeholder="Enter Caption">
+        </div>
+        <div class="form-group">
+          <label for="" class="form-check-label">Image: <span class="text-danger">*</span></label>
+          <input type="file" name="image" required> 
+        </div>          
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Save</button>  
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+<!-- Features and Amentities -->
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Features and Amentities </h6>
+      <a href="javascript:viod(0)" class="btn btn-info btn-sm"  data-toggle="modal" data-target="#new-feature-model"> <i class="fa fa-plus"></i> Add New Feature</a>
+
+      <div class="row">
+        {%if property.features.all %}
+
+          {% for image in property.features.all %}
+            <div class="col-sm-3 md-2">
+
+          {% if image.image %}
+            <img src="{{ image.image.url }}" width="100%" class="img-thumbnail" alt="">
+            {% endif %}            
+            <br>
+            <b>{{ image.name }} </b>
+            <div class="btn-group">
+              <a href="{% url 'admin.properties.delete-feature' id=image.id %}" class="btn btn-warning btn-sm" title="Delete"> <i class="fa fa-trash"></i></a>
+            </div>
+              </div>
+          {% endfor %}
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="new-feature-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <form action="{%url 'admin.properties.feature-upload'%}" method="POST" enctype="multipart/form-data" method="POST">
+         {% csrf_token %}
+          <input type="hidden" value="{{ property.id }}" name="property">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">New Features</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="" class="form-check-label">Name:</label>
+          <input type="text" class="form-control" name="name" placeholder="Enter Name">
+        </div>
+        <div class="form-group">
+          <label for="" class="form-check-label">Image: <span class="text-danger">*</span></label>
+          <input type="file" name="image" required> 
+        </div>          
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Save</button>  
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+{% endblock js %}
+
+
+{% block css %}
+
+<style>
+  .youtube-ifrem iframe {
+
+    width: 100% !important;
+    height: 175px !important;
+  }
+</style>
+
+{% endblock css %}

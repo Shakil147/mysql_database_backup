@@ -1,0 +1,231 @@
+{% extends "backend/layouts/master.html" %}
+{% load static  %}
+
+{% block title %}
+Edit property
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}" role="alert">
+    {{message}}
+     <button type="button" class="close" data-dismiss="alert">x</button>
+  </div>
+{% endfor %} {% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+<div class="custom-page-title">
+  <h4 class="float-left">properties</h4>
+  <a href="{% url 'admin.properties.index' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-list"></i>  properties</a>
+  <p class="mg-b-0"></p>
+</div>
+
+</div>
+
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Edit Property</h6>
+      <!-- <p class="br-section-text"></p> -->
+
+      <form action="{%url 'admin.properties.update' id=property.id%}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+      <div class="form-layout form-layout-1">
+        <div class="row mg-b-25">
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Property Id: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="text" name="apartment_id" value="{{ property.apartment_id }}" placeholder="Enter Property Id" required>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Size: <small>(sq Ft)</small> <span class="tx-danger">*</span></label>
+              <input class="form-control" type="number" name="size" value="{{ property.size }}" placeholder="Enter Size" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Bed: </label>
+              <input class="form-control" type="number" name="bed" value="{{ property.bed }}" min="0" placeholder="Enter Bed" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Bath: </label>
+              <input class="form-control" type="number" name="bath" value="{{ property.bath }}" min="0" placeholder="Enter Bath" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Blecony: </label>
+              <input class="form-control" type="number" name="blecony" value="{{ property.blecony }}" min="0" placeholder="Enter Blecony" required>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Price: <small>(TK.)</small> </label>
+              <input class="form-control" type="number" name="price" value="{{ property.price }}" min="0" placeholder="Enter Price" required>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Type: <span class="tx-danger">*</span></label>
+              <select name="type" id="type" class="form-control select2" required>
+                {% if types != None %}
+                {% for type in types %}
+                <option value="{{ type.id }}"                
+                {% if property.type_id == type.id %} selected {% endif %}
+                >{{ type.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Location: <span class="tx-danger">*</span></label>
+              <select name="location" id="location" class="form-control select2" required>
+                {% if locations != None %}
+                {% for location in locations %}
+                <option value="{{ location.id }}" 
+                {% if property.location_id == location.id %} selected {% endif %}
+                >{{ location.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="form-control-label">Project: <span class="tx-danger">*</span></label>
+              <select name="project" id="project" class="form-control">
+                <option value="">Select Project</option>
+                {% if projects != None %}
+                {% for project in projects %}
+                <option value="{{ project.id }}"
+                {% if property.project_id == project.id %} selected {% endif %}
+                >{{ project.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Category: </label>
+              <select name="apartment_status" id="apartment_status" class="form-control select2" required>
+                <option value="Ongoing" {% if property.apartment_status == "Ongoing" %} selected {% endif %}>Ongoing</option>
+                <option value="Upcoming" {% if property.apartment_status == "Upcoming" %} selected {% endif %}>Upcoming</option>
+                <option value="Ready" {% if property.apartment_status == "Ready" %} selected {% endif %}>Ready</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Purpose: </label>
+              <select name="purpose" id="purpose" class="form-control select2" required>
+                <option value="Buy Flat" {% if property.apartment_status == "Buy Flat" %} selected {% endif %}>Buy Flat</option>
+                <option value="Rent" {% if property.apartment_status == "Rent" %} selected {% endif %}>Rent</option>
+                <!-- <option value="Sell Flat" {% if property.apartment_status == "Sell Flat" %} selected {% endif %}>Sell Flat</option> -->
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="form-control-label">Details:</label>
+              <textarea name="details" id="details" class="form-control" cols="30" rows="4" placeholder="Enter details of this progect" >{{ property.details }}</textarea>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-control-label">Main Image:: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="file" name="image"  placeholder="Select Image">
+              <span class="text-info">Image Size 1280*720px Max size 1mb</span>
+            </div>
+            <div class="form-group m-4">
+              
+              {% if property.image %}
+                  <img src="{{ property.image.url }}" class="img-thumbnail" width="80" alt=""> 
+              {% else %} 
+                  <img src="data:image/gif;base64,R0mdODlhAQABAAD/ACwAAAAAAQABAAACADs" class="img-thumbnail" width="60" alt="">
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="form-control-label">Background Image: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="file" name="image_2"  placeholder="Select Background Image">
+              <span class="text-info">Image Size 1280*720px Max size 1mb</span>
+            </div>
+            <div class="form-group m-4">              
+              {% if property.image_2 %}
+                  <img src="{{ property.image_2.url }}" class="img-thumbnail" width="80" alt=""> 
+              {% else %} 
+                  <img src="data:image/gif;base64,R0mdODlhAQABAAD/ACwAAAAAAQABAAACADs" class="img-thumbnail" width="60" alt="">
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Sort Index: </label>
+              <select name="xsort" id="xsort" class="form-control" required>                
+                <option value="1" {% if property.xsort == 1 %} selected {% endif%} >1</option>
+                <option value="2" {% if property.xsort == 2 %} selected {% endif%} >2</option>
+                <option value="3" {% if property.xsort == 3 %} selected {% endif%} >3</option>
+                <option value="4" {% if property.xsort == 4 %} selected {% endif%} >4</option>
+                <option value="5" {% if property.xsort == 5 %} selected {% endif%} >5</option>
+                <option value="6" {% if property.xsort == 6 %} selected {% endif%} >6</option>
+                <option value="8" {% if property.xsort == 8 %} selected {% endif%} >8</option>
+                <option value="9" {% if property.xsort == 9 %} selected {% endif%} >9</option>
+                <option value="10" {% if property.xsort == 10 %} selected {% endif%} >10</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-check m-4">
+              <input class="form-check-input" name="status" type="checkbox" {% if property.status == 1 %}
+              checked {% endif %} value="1" id="status-checkbox">
+              <label class="form-check-label" for="status-checkbox">
+                Status
+              </label>
+            </div>
+          </div>
+        </div><!-- row -->
+
+        <div class="form-layout-footer">
+            <button class="btn btn-warning" type="reset">Reset</button>
+            <button class="btn btn-info" type="save" value="s&c" name="submit">Save & Continue</button>
+            <button class="btn btn-success" type="save">Save</button>
+        </div>
+        
+      </div>
+      </form>
+
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+<script src="{%static  '' %}template/lib/select2/js/select2.full.min.js"></script>
+<script>
+document.addEventListener( 'DOMContentLoaded',function()
+{
+ CKEDITOR.replace( 'details' );
+});
+$('.select2').select2();
+</script>
+{% endblock js %}
+
+{% block css %}
+    <link href="{%static  '' %}template/lib/select2/css/select2.min.css" rel="stylesheet">
+{% endblock css %}

@@ -1,0 +1,221 @@
+{% extends "backend/layouts/master.html" %}
+{% load static  %}
+
+{% block title %}
+Add Property
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} 
+{% for message in messages %}
+  <div class="alert alert-{{ message.tags }}" role="alert">
+    {{message}}
+     <button type="button" class="close" data-dismiss="alert">x</button>
+  </div>
+{% endfor %} 
+{% endif %}
+
+{% if form %}
+{% for row in form.errors %}
+  <div class="alert alert-danger" role="alert">
+    {{row}}
+     <button type="button" class="close" data-dismiss="alert">x</button>
+  </div>
+{% endfor %} 
+{% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+<div class="custom-page-title">
+  <h4 class="float-left">Properties</h4>
+  <a href="{% url 'admin.properties.index' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-list"></i>  properties</a>
+  <p class="mg-b-0"></p>
+</div>
+
+</div>
+
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Add Property</h6>
+      <!-- <p class="br-section-text"></p> -->
+
+      <form action="{% url 'admin.properties.store' %}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+      <div class="form-layout form-layout-1">
+        <div class="row mg-b-25">
+
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Property Id: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="text" name="apartment_id" value="" placeholder="Enter Property Id" required>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Size: <small>(sq Ft)</small> <span class="tx-danger">*</span></label>
+              <input class="form-control" type="number" name="size" value="" placeholder="Enter Size" required>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Bed: </label>
+              <input class="form-control" type="number" name="bed" value="0" min="0" placeholder="Enter Bed" required>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Bath: </label>
+              <input class="form-control" type="number" name="bath" value="0" min="0" placeholder="Enter Bath" required>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Blecony: </label>
+              <input class="form-control" type="number" name="blecony" value="0" min="0" placeholder="Enter Blecony" required>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Price: <small>(TK.)</small> </label>
+              <input class="form-control" type="number" name="price" value="0" min="0" placeholder="Enter Price" required>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Type: <span class="tx-danger">*</span></label>
+              <select name="type" id="type" class="form-control select2" required>
+                {% if types != None %}
+                {% for type in types %}
+                <option value="{{ type.id }}">{{ type.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Location: <span class="tx-danger">*</span></label>
+              <select name="location" id="location" class="form-control select2" required>
+                <option value="">Select Location</option>
+                {% if locations != None %}
+                {% for location in locations %}
+                <option value="{{ location.id }}">{{ location.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-group">
+              <label class="form-control-label">Project: <span class="tx-danger">*</span></label>
+              <select name="project" id="project" class="form-control">
+                <option value="">Select Project</option>
+                {% if projects != None %}
+                {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+                {% endfor %}
+                {% endif %}
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Category: </label>
+              <select name="apartment_status" id="apartment_status" class="form-control select2" required>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Upcoming">Upcoming</option>
+                <option value="Ready">Ready</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Purpose: </label>
+              <select name="purpose" id="purpose" class="form-control select2" required>
+                <option value="Buy Flat">Buy Flat</option>
+                <option value="Rent">Rent</option>
+                <!-- <option value="Sell Flat">Sell Flat</option> -->
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label class="form-control-label">Details:</label>
+              <textarea name="details" id="details" class="form-control" cols="30" rows="4" placeholder="Enter details of this progect" ></textarea>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label">Image: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="file" name="image"  placeholder="Select Image">
+              <span class="text-info">Image Size 1280*720px Max size 1mb</span>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="form-control-label">Background Image: <span class="tx-danger">*</span></label>
+              <input class="form-control" type="file" name="image_2"  placeholder="Select Background Image">
+              <span class="text-info">Image Size 1280*720px Max size 1mb</span>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="form-control-label">Sort Index: </label>
+              <select name="xsort" id="xsort" class="form-control" required>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10" >10</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-check m-4">
+              <input class="form-check-input" name="status" type="checkbox" value="1" id="status-checkbox" checked>
+              <label class="form-check-label" for="status-checkbox">
+                Status
+              </label>
+            </div>
+          </div>
+        </div><!-- row -->
+        <div class="form-layout-footer">
+            <button class="btn btn-warning" type="reset">Reset</button>
+            <button class="btn btn-info" type="save" value="s&c" name="submit">Save & Continue</button>
+            <button class="btn btn-success" type="save">Save</button>
+        </div>        
+      </div>
+      </form>
+
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+<script src="{%static  '' %}template/lib/select2/js/select2.full.min.js"></script>
+<script>
+document.addEventListener( 'DOMContentLoaded',function()
+{
+ CKEDITOR.replace( 'details' );
+});
+$('.select2').select2();
+</script>
+
+{% endblock js %}
+
+
+{% block css %}
+
+    <link href="{%static  '' %}template/lib/select2/css/select2.min.css" rel="stylesheet">
+{% endblock css %}
+

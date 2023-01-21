@@ -1,0 +1,130 @@
+{% extends "backend/layouts/master.html" %}
+{% load static  %}
+
+{% block title %}
+Properties List
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} {% for message in messages %}
+  <div class="alert alert-{{ message.tags }}" role="alert">
+    {{message}}
+     <button type="button" class="close" data-dismiss="alert">x</button>
+  </div>
+{% endfor %} {% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+<div class="custom-page-title">
+  <h4 class="float-left">Properties</h4>
+  <a href="{% url 'admin.properties.create' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-plus"></i>  Add New</a>
+  <p class="mg-b-0"></p>
+</div>
+
+</div>
+
+<div class="br-pagebody">
+    <div class="br-section-wrapper">
+      <h6 class="br-section-label">Properties List</h6>
+
+      <div class="table-wrapper">
+        <table class="table display responsive nowrap">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Image</th>
+              <th>Apartment Id</th>
+              <th>Project</th>
+              <th>Price</th>
+              <th>Size</th>
+              <th>Status</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%if properties %}
+
+          {% for property in properties %}
+          <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>
+                {% if property.image %}
+                  <img src="{{ property.image.url }}" class="img-thumbnail" width="60" alt=""> 
+                  {% else %} 
+                  <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs" class="img-thumbnail" width="60" alt="">
+                {% endif %}
+              </td>
+              <td>{{ property.apartment_id }}</td>
+              <td> {% if property.project != None %} {{ property.project }} {% endif %}</td>
+              <td>{{ property.price }}</td>
+              <td>{{ property.size }}</td>
+              <td>
+                {% if property.status == 1 %}
+                  <span class="btn btn-sm btn-success"><i class="fa fa fa-arrow-up"></i></span> 
+                  {% else %} 
+                  <span class="btn btn-sm btn-warning"><i class="fa fa fa-arrow-down"></i></span> 
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <div class="btn-group text-center">
+
+                  <a href="{%url 'admin.properties.show' id=property.id%}" class="btn btn-sm btn-success" title="Viewe"><i class="fa fa-eye"></i> View</a> 
+
+                  <a href="{%url 'admin.properties.edit' id=property.id%}" class="btn btn-sm btn-info" title="Edit"><i class="fa fa-pen"></i> Edit</a>  
+
+                  <a href="{%url 'admin.properties.delete' id=property.id%}" onclick="event.preventDefault();
+                               document.getElementById('delete-form{{ property.id }}').submit();" class="btn btn-sm btn-warning" title="Delete"><i class="fa fa-trash"></i> Delete</a>
+                  <form class="d-none" action="{%url 'admin.properties.delete' id=property.id%}" method="POST" id="delete-form{{ property.id }}">
+                    {% csrf_token %}
+                  </form>
+                </div>                
+              </td>
+            </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+              <td colspan="6" class="text-center">No data</td>
+            </tr>
+          {% endif %}
+            
+
+          </tbody>
+        </table>
+      </div><!-- table-wrapper -->
+
+    </div><!-- br-section-wrapper -->
+  </div><!-- br-pagebody -->
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="{%static  '' %}template/lib/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+
+<script src="{%static  '' %}template/lib/select2/js/select2.min.js"></script>
+
+<script>
+    $('.datatable').DataTable({
+    responsive: true,
+    language: {
+        searchPlaceholder: 'Search...',
+        sSearch: '',
+        lengthMenu: '_MENU_ items/page',
+    }
+    });
+    $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+</script>
+{% endblock js %}
+
+
+{% block css %}
+
+<link href="{%static  '' %}template/lib/select2/css/select2.min.css" rel="stylesheet">
+<link href="{%static  '' %}template/lib/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="{%static  '' %}template/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css" rel="stylesheet">
+
+{% endblock css %}
