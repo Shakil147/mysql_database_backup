@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
 from pathlib import Path
+import os
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +30,7 @@ MEDIA_DIR = os.path.join(BASE_DIR, "media")
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a3(f+@fssd8mw!etw69((!!j$4$2^(#q)6ghwj2#@)pr=ifh8s'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,14 +86,18 @@ WSGI_APPLICATION = 'dbBackupDjango.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangodb',
-        'USER':'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
-        'PORT':'3306'
+    'default_dsad': {
+        'ENGINE': env('DB_CONNECTION'),
+        'NAME':  env('DB_PASSWORD'),
+        'USER':  env('DB_USERNAME'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
     },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -136,7 +143,6 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -151,7 +157,7 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = MEDIA_DIR
 
-EMAIL_HOST = "smtp.mailtrap.io"
-EMAIL_HOST_USER = "913e981900e9e6"
-EMAIL_HOST_PASSWORD = "28e3d14c7dbc6f"
-EMAIL_PORT = "2525"
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')

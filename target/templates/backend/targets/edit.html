@@ -1,0 +1,121 @@
+{% extends "backend/layouts/master.html" %}
+{% load static %}
+
+{% block title %}
+Edit target
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} {% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert">x</button>
+</div>
+{% endfor %} {% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+  <div class="custom-page-title">
+    <h4 class="float-left">targets</h4>
+    <a href="{% url 'admin.targets.index' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-list"></i>
+      targets</a>
+    <p class="mg-b-0"></p>
+  </div>
+
+</div>
+
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <h6 class="br-section-label">Edit target</h6>
+    <!-- <p class="br-section-text"></p> -->
+
+    <form action="{%url 'admin.targets.update' id=target.id%}" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      <div class="form-layout form-layout-1">
+        <div class="row mg-b-25">
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">DB_HOST: </label>
+              <input class="form-control" type="text" name="db_host" value="{{ target.db_host }}"
+                placeholder="Enter DB HOST" required>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">DB_PORT: </label>
+              <input class="form-control" type="text" name="db_port" value="{{ target.db_port }}"
+                placeholder="Enter DB HOST" required>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <div class="form-group">
+              <label class="form-control-label">Priority: </label>
+              <input class="form-control" type="number" min="0" name="priority" value="{{ target.priority }}"
+                placeholder="Enter Priority" required>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-check m-4">
+              <input class="form-check-input" name="status" type="checkbox" {% if target.status %} checked {% endif %}
+                value="1" id="status-checkbox">
+              <label class="form-check-label" for="status-checkbox">
+                Status
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">DB_NAME: </label>
+              <input class="form-control" type="text" name="database" value="{{ target.database }}"
+                placeholder="Enter DB NAME" required>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">DB_USERNAME: </label>
+              <input class="form-control" type="text" name="username" value="{{ target.username }}"
+                placeholder="Enter DB USERNAME" required>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="form-group">
+              <label class="form-control-label">DB_PASSWORD: </label>
+              <input class="form-control" type="text" name="password" value="{{ target.password }}"
+                placeholder="Enter DB PASSWORD" required>
+            </div>
+          </div>
+
+
+        </div><!-- row -->
+
+        <div class="form-layout-footer">
+          <button class="btn btn-warning" type="reset">Reset</button>
+          <button class="btn btn-info" type="save" value="s&c" name="submit">Save & Continue</button>
+          <button class="btn btn-success" type="save">Save</button>
+        </div>
+
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+<script src="{%static  '' %}template/lib/select2/js/select2.full.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    CKEDITOR.replace('details');
+  });
+  $('.select2').select2();
+</script>
+{% endblock js %}
+
+{% block css %}
+<link href="{%static  '' %}template/lib/select2/css/select2.min.css" rel="stylesheet">
+{% endblock css %}
