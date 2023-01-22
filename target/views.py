@@ -4,6 +4,8 @@ from .models import (
     Target,
     TargetForm,
 )
+
+from core.models import BackupHistory
 from django.contrib import messages
 from django.utils.text import slugify
 
@@ -90,3 +92,12 @@ def Delete(request, id):
     else:
         messages.warning(request, "Somthing Went wrong ! Try Again")
     return HttpResponseRedirect(url)
+
+
+@login_required(login_url="/admin/login")
+def BackupHistry(request, id):
+    context = {
+        "target": Target.objects.get(id=id),
+        "backups": BackupHistory.objects.all().filter(target_id=id).order_by("-created_at"),
+    }
+    return render(request, "backend/targets/backups.html", context)

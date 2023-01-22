@@ -1,0 +1,115 @@
+{% extends "backend/layouts/master.html" %}
+{% load static %}
+
+{% block title %}
+Properties List
+{% endblock title %}
+
+{% block content %}
+
+{%if messages %} {% for message in messages %}
+<div class="alert alert-{{ message.tags }}" role="alert">
+  {{message}}
+  <button type="button" class="close" data-dismiss="alert">x</button>
+</div>
+{% endfor %} {% endif %}
+
+<div class="br-pagetitle">
+  <i class="fa fa-rocket"></i>
+  <div class="custom-page-title">
+    <h4 class="float-left">Backups</h4>
+    <a href="{% url 'admin.targets.index' %}" class="btn btn-info btn-sm float-right"> <i class="fa fa-plus"></i>
+      Targets</a>
+    <p class="mg-b-0"></p>
+  </div>
+
+</div>
+
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <h6 class="br-section-label">All Backup fo {{ target.database }}</h6>
+
+    <div class="table-wrapper">
+      <table class="table display responsive nowrap">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%if backups %}
+
+          {% for row in backups %}
+          <tr>
+            <td>{{ forloop.counter }}
+              <br>
+              {{ row.path }}
+            </td>
+            <td>{{ row.created_at }}</td>
+
+            <td>
+              {% if row.status == 1 %}
+              <span class="btn btn-sm btn-success"><i class="fa fa fa-arrow-up"></i></span>
+              {% else %}
+              <span class="btn btn-sm btn-warning"><i class="fa fa fa-arrow-down"></i></span>
+              {% endif %}
+            </td>
+            <td class="text-center">
+              <div class="btn-group text-center">
+                <a href="{%url 'base'%}{{ row.path }}" class="btn btn-sm btn-success" title="Backups"><i
+                    class="fa fa-file"></i>
+                  Download</a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td colspan="3" class="text-center">No data</td>
+          </tr>
+          {% endif %}
+
+
+        </tbody>
+      </table>
+    </div><!-- table-wrapper -->
+
+  </div><!-- br-section-wrapper -->
+</div><!-- br-pagebody -->
+
+{% endblock content %}
+
+{% block js %}
+
+<script src="{%static  '' %}template/lib/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{%static  '' %}template/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+
+<script src="{%static  '' %}template/lib/select2/js/select2.min.js"></script>
+
+<script>
+  $('.datatable').DataTable({
+    responsive: true,
+    language: {
+      searchPlaceholder: 'Search...',
+      sSearch: '',
+      lengthMenu: '_MENU_ items/page',
+    }
+  });
+  $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+</script>
+{% endblock js %}
+
+
+{% block css %}
+
+<link href="{%static  '' %}template/lib/select2/css/select2.min.css" rel="stylesheet">
+<link href="{%static  '' %}template/lib/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="{%static  '' %}template/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css"
+  rel="stylesheet">
+
+{% endblock css %}

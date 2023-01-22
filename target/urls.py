@@ -7,6 +7,7 @@ from .views import (
     Edit,
     Update,
     Delete,
+    BackupHistry,
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     #path("show/<int:id>/", Show, name="admin.targets.show"),
     path("update/<int:id>/", Update, name="admin.targets.update"),
     path("delete/<int:id>/", Delete, name="admin.targets.delete"),
+    path("backups/<int:id>/", BackupHistry, name="admin.targets.backups"),
 ]

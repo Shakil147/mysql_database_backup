@@ -4,6 +4,7 @@ import datetime
 import pipes
 
 from target.models import Target
+from core.models import BackupHistory
 
 from django.core.management.base import BaseCommand
 from django.utils.crypto import get_random_string
@@ -74,6 +75,12 @@ class Command(BaseCommand):
                 os.system(gzipcmd)
                 p = p + 1
             dbfile.close()
+
+            backup = BackupHistory()
+            backup.target_id = data.id
+            backup.status = 0
+            backup.path = TODAYBACKUPPATH + "/" + db + ".sql.gz"
+            backup.save()
         else:
             db = DB_NAME
             dumpcmd = "mysqldump -h " + DB_HOST + " -u " + DB_USER + " -p" + DB_USER_PASSWORD + \
@@ -83,4 +90,9 @@ class Command(BaseCommand):
             gzipcmd = "gzip " + \
                 pipes.quote(TODAYBACKUPPATH) + "/" + db + ".sql"
             os.system(gzipcmd)
-            #print(" asdf")
+            backup = BackupHistory()
+            backup.target_id = data.id
+            backup.status = 0
+            backup.path = TODAYBACKUPPATH.replace(
+                './', '') + "/" + db + ".sql.gz"
+            backup.save()
